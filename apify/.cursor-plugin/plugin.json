@@ -1,5 +1,5 @@
 {
-  "name": "apify-cursor",
+  "name": "apify",
   "description": "Official Apify agent skills for web scraping, data extraction, and automation",
   "version": "1.0.0",
   "repository": "https://github.com/apify/apify-cursor-plugin",
