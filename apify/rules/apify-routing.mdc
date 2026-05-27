@@ -1,0 +1,49 @@
+---
+description: Whenever the user mentions Apify, Apify Actors, web scraping with Apify, the Apify Store, the Apify SDK, the Apify CLI, the `apify` or `apify-client` npm packages, or anything at apify.com / console.apify.com, route the request through the `apify` subagent before invoking any `apify-*` skill directly.
+---
+
+# Apify Routing
+
+Cursor exposes Apify skills (`apify-actor-development`, `apify-actorization`, `apify-generate-output-schema`, `apify-sdk-integration`, `apify-ultimate-scraper`) directly in the slash menu. They are **internal capabilities** owned by the `apify` subagent and must not be invoked on their own.
+
+## Required Behavior
+
+When the user's request involves Apify — Actors, web scraping, browser automation, the Apify Store, the Apify SDK, the Apify CLI, the `apify` or `apify-client` npm packages, or anything at `apify.com` / `console.apify.com` — invoke the `apify` subagent first. Let it consult its routing matrix and dispatch to the correct skill or MCP tool.
+
+Do **not**:
+
+- Call any `apify-*` skill directly from the slash menu without going through the `apify` subagent.
+- Guess between `apify-actor-development` vs `apify-actorization` vs `apify-sdk-integration` yourself — the subagent owns that decision (the `apify` SDK package and the `apify-client` package are easy to confuse and picking wrong breaks the user's project).
+- Skip the subagent for "quick" Apify questions. Even MCP tool calls (`search-actors`, `run-actor`, etc.) are routed through the subagent.
+
+If the user types a slash command for an Apify skill explicitly, still hand off to the `apify` subagent so the routing matrix and authentication guidance are applied.
+
+## Why this rule exists
+
+Apify exposes three very different products through its plugin: (1) using existing Actors via MCP, (2) building and deploying custom Actors with the SDK + CLI, and (3) calling Actors from an existing application via `apify-client`. Each path requires a different skill, a different authentication flow, and a different npm package. The `apify` subagent is the only place where the routing matrix and the package-naming trap are documented, so every Apify request must pass through it.
+
+### Apify CLI instructions:
+- Before using the CLI, always check if it is installed:
+```bash
+    apify --help
+```
+- If the CLI is installed, check if it is logged in:
+```bash
+    # Auth check — do NOT pipe to /dev/null, you need to see errors
+    apify info 2>&1
+```
+- If the CLI is not logged in, instruct the user to log in with the non-interactive flag:
+```bash
+    apify login --token TOKEN
+```
+- All of the APify commands needs to be run with the all permissions (depends on Agent sandbox)
+- Apify commands blocks with **zero output** until the run completes. Set `block_until_ms` to at least **60000** (60s).
+- For long/unknown runs, use the async pattern instead:
+```bash
+    apify actors start "ACTOR_ID" -i 'JSON_INPUT' --json 2>/dev/null
+```
+Then poll with `apify info`:
+```bash
+    apify info actor-runs/RUN_ID --json
+```
+Check `.status` for `SUCCEEDED` or `FAILED`.
