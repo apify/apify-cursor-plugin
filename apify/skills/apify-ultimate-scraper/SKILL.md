@@ -74,6 +74,9 @@ If this fails, install the CLI first:
 ### Step 1: Understand goal and select Actor
 
 Identify the target platform and use case. Read `references/actor-index.md` to find the right Actor.
+Prefer `apify`-tier actors; use `community`-tier only when no `apify` actor covers the task.
+For input schemas, fetch dynamically: `apify actors info "ACTOR_ID" --input --json 2>/dev/null`
+If the output is empty, re-run without the redirect (`2>&1`) to surface auth or network errors before proceeding.
 
 If the task involves a multi-step pipeline, also read the matching workflow guide:
 
