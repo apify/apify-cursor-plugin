@@ -8,14 +8,14 @@ Official Apify plugin for Cursor — adds the Apify MCP server, one `apify` rout
 
 | Component | Path | Purpose |
 |---|---|---|
-| Agent (entry point) | `agents/apify.md` | Routes every Apify request to the right skill or transport path. **This is the one you should invoke.** |
-| Routing rule | `rules/apify-routing.mdc` | Tells Cursor to hand Apify-related requests to the `apify` agent first, instead of guessing between the per-task skills. |
-| MCP server | `mcp.json` → `apify` (`https://mcp.apify.com`) | Lets the agent search the Apify Store, fetch Actor details, run Actors, and read the Apify docs. |
-| Skill | `skills/apify-actor-development/` | Create, debug, and deploy a brand new Apify Actor from scratch. |
-| Skill | `skills/apify-actorization/` | Convert an existing JS/TS, Python, or CLI project into an Apify Actor. |
-| Skill | `skills/apify-generate-output-schema/` | Generate `dataset_schema.json` / `output_schema.json` / `key_value_store_schema.json` for an existing Actor. |
-| Skill | `skills/apify-sdk-integration/` | Add Apify Actor execution to an existing application using the `apify-client` package. |
-| Skill | `skills/apify-ultimate-scraper/` | Pick the right Actor from ~100 pre-built scrapers across 15+ platforms and run them end-to-end via the Apify CLI. |
+| Agent (entry point) | `apify/agents/apify.md` | Routes every Apify request to the right skill or transport path. **This is the one you should invoke.** |
+| Routing rule | `apify/rules/apify-routing.mdc` | Tells Cursor to hand Apify-related requests to the `apify` agent first, instead of guessing between the per-task skills. |
+| MCP server | `apify/mcp.json` → `apify` (`https://mcp.apify.com`) | Lets the agent search the Apify Store, fetch Actor details, run Actors, and read the Apify docs. |
+| Skill | `apify/skills/apify-actor-development/` | Create, debug, and deploy a brand new Apify Actor from scratch. |
+| Skill | `apify/skills/apify-actorization/` | Convert an existing JS/TS, Python, or CLI project into an Apify Actor. |
+| Skill | `apify/skills/apify-generate-output-schema/` | Generate `dataset_schema.json` / `output_schema.json` / `key_value_store_schema.json` for an existing Actor. |
+| Skill | `apify/skills/apify-sdk-integration/` | Add Apify Actor execution to an existing application using the `apify-client` package. |
+| Skill | `apify/skills/apify-ultimate-scraper/` | Pick the right Actor from ~100 pre-built scrapers across 15+ platforms and run them end-to-end via the Apify CLI. |
 | Asset | `assets/logo.svg` | Plugin branding asset used by the Cursor package. |
 
 ## Installation
@@ -23,14 +23,14 @@ Official Apify plugin for Cursor — adds the Apify MCP server, one `apify` rout
 ### From the Cursor Marketplace
 
 1. Open the **Marketplace** panel in Cursor.
-2. Search for **Apify** (the plugin id is `apify-cursor`).
+2. Search for **Apify** (the plugin id is `apify`).
 3. Click **Install**.
 4. Reload the window when prompted.
 
 ### Manual / local install (for testing)
 
 ```bash
-git clone https://github.com/apify/apify-cursor-plugin ~/.cursor/plugins/local/apify-cursor
+git clone https://github.com/apify/apify-cursor-plugin ~/.cursor/plugins/local/apify
 # Then in Cursor: View → Command Palette → "Developer: Reload Window"
 ```
 
@@ -93,7 +93,7 @@ Cursor currently lists every skill in the slash menu, so you may also see `/apif
 
 ### MCP server
 
-The `apify` MCP server is configured in `mcp.json` (`https://mcp.apify.com`) and exposes:
+The `apify` MCP server is configured in `apify/mcp.json` (`https://mcp.apify.com`) and exposes:
 
 - `search-actors` — search the Apify Store by keyword (no auth)
 - `fetch-actor-details` — Actor specs, input schema, pricing (no auth)
@@ -107,9 +107,9 @@ You can disable or re-enable the server in **Cursor Settings → MCP**.
 
 Some skills ship with extra reference docs and workflow playbooks that the agent loads on demand:
 
-- `skills/apify-actor-development/references/` — `actor-json.md`, `input-schema.md`, `dataset-schema.md`, `key-value-store-schema.md`, `output-schema.md`, `actor-readme.md`, `logging.md`, `standby-mode.md`.
-- `skills/apify-actorization/references/` — `js-ts-actorization.md`, `python-actorization.md`, `cli-actorization.md`, `schemas-and-output.md`.
-- `skills/apify-ultimate-scraper/references/` — `actor-index.md`, `gotchas.md`, and a `workflows/` folder covering lead generation, competitive intel, influencer vetting, brand monitoring, review analysis, content & SEO, social analytics, trend research, recruitment, real estate, e-commerce price monitoring, contact enrichment, RAG, and company research.
+- `apify/skills/apify-actor-development/references/` — `actor-json.md`, `input-schema.md`, `dataset-schema.md`, `key-value-store-schema.md`, `output-schema.md`, `actor-readme.md`, `logging.md`, `standby-mode.md`.
+- `apify/skills/apify-actorization/references/` — `js-ts-actorization.md`, `python-actorization.md`, `cli-actorization.md`, `schemas-and-output.md`.
+- `apify/skills/apify-ultimate-scraper/references/` — `actor-index.md`, `gotchas.md`, and a `workflows/` folder covering lead generation, competitive intel, influencer vetting, brand monitoring, review analysis, content & SEO, social analytics, trend research, recruitment, real estate, e-commerce price monitoring, contact enrichment, RAG, and company research.
 
 The `apify-ultimate-scraper` skill drives the **Apify CLI** directly (`apify actors search`, `apify actors call`, `apify datasets get-items`) — there are no bundled helper scripts to install. Make sure `apify-cli` v1.4.0+ is on your `PATH`.
 
