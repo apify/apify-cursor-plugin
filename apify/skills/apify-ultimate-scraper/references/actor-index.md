@@ -1,10 +1,3 @@
-# Actor index
-
-Flat lookup for Actor selection. For input schemas, fetch dynamically:
-`apify actors info "ACTOR_ID" --input --json`
-
-Tiers: `apify` = Apify-maintained (always prefer), `community` = community-maintained (fill gaps).
-
 ## Instagram
 
 | Actor | Tier | Best for |
