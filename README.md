@@ -16,7 +16,7 @@ Official Apify plugin for Cursor — adds the Apify MCP server, one `apify` rout
 | Skill | `apify/skills/apify-generate-output-schema/` | Generate `dataset_schema.json` / `output_schema.json` / `key_value_store_schema.json` for an existing Actor. |
 | Skill | `apify/skills/apify-sdk-integration/` | Add Apify Actor execution to an existing application using the `apify-client` package. |
 | Skill | `apify/skills/apify-ultimate-scraper/` | Pick the right Actor from ~100 pre-built scrapers across 15+ platforms and run them end-to-end via the Apify CLI. |
-| Asset | `apify/assets/logo.svg` | Plugin branding asset used by the Cursor package. |
+| Asset | `assets/logo.svg` | Plugin branding asset used by the Cursor package. |
 
 ## Installation
 

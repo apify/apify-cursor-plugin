@@ -9,6 +9,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 ### Fixed
 
 - Register the repo as a Cursor marketplace via `.cursor-plugin/marketplace.json` so the nested `apify` plugin is discoverable.
-- Move `assets/logo.svg` under `apify/assets/` so the plugin manifest logo path resolves.
 
 ## [1.0.0] — Initial Cursor release
