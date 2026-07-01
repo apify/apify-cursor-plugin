@@ -1,0 +1,13 @@
+{
+  "name": "apify",
+  "owner": {
+    "name": "Apify",
+    "email": "support@apify.com"
+  },
+  "plugins": [
+    {
+      "name": "apify",
+      "source": "apify"
+    }
+  ]
+}
