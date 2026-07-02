@@ -29,8 +29,11 @@ Official Apify plugin for Cursor — adds the Apify MCP server, one `apify` rout
 
 ### Manual / local install (for testing)
 
+This repo is a Cursor marketplace (see `.cursor-plugin/marketplace.json`). For local testing, install the plugin directory:
+
 ```bash
-git clone https://github.com/apify/apify-cursor-plugin ~/.cursor/plugins/local/apify
+git clone https://github.com/apify/apify-cursor-plugin /tmp/apify-cursor-plugin
+cp -R /tmp/apify-cursor-plugin/apify ~/.cursor/plugins/local/apify
 # Then in Cursor: View → Command Palette → "Developer: Reload Window"
 ```
 
