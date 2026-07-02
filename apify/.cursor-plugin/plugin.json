@@ -1,6 +1,6 @@
 {
   "name": "apify",
-  "description": "Official Apify agent skills for web scraping, data extraction, and automation",
+  "description": "Extract data from any website with thousands of trusted scrapers, crawlers, and automations from Apify Store. Integrate ready-made Actors to access all popular social media, video, e-commerce, search engines, maps, and travel sites. Build, debug, publish, and monetize new Actors on Apify.",
   "version": "1.0.0",
   "repository": "https://github.com/apify/apify-cursor-plugin",
   "author": {
