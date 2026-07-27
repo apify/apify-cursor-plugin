@@ -76,6 +76,10 @@
 | apidojo/twitter-user-scraper | community | user profiles |
 | apidojo/twitter-profile-scraper | community | profiles + recent tweets |
 | apidojo/twitter-list-scraper | community | tweets from lists |
+| xquik/x-tweet-scraper | community | tweet lookup, search, timelines, threads, and engagement |
+| xquik/x-follower-scraper | community | followers, following, lists, and communities |
+
+Xquik is an independent third-party service. Not affiliated with X Corp. "Twitter" and "X" are trademarks of X Corp.
 
 ## LinkedIn
 
