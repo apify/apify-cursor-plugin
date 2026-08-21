@@ -8,7 +8,7 @@
     {
       "name": "apify",
       "source": "apify",
-      "description": "Extract data from any website with thousands of trusted scrapers, crawlers, and automations from Apify Store. Integrate ready-made Actors to access all popular social media, video, e-commerce, search engines, maps, and travel sites. Build, debug, publish, and monetize new Actors on Apify."
+      "description": "Run ready-made Actors from Apify, the largest marketplace of tools for AI, or build and publish your own."
     }
   ]
 }
