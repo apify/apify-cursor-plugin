@@ -1,8 +1,8 @@
 # Apify for Cursor
 
-Official Apify plugin for Cursor — adds the Apify MCP server, one `apify` routing agent, a routing rule that funnels Apify requests through that agent, and five bundled skills for the main Apify workflows: using existing Actors, building and deploying custom Actors, actorizing existing projects, generating Actor output schemas, and integrating Apify into existing applications.
+Official Apify plugin for Cursor. It adds the Apify MCP server, one `apify` routing agent, a routing rule that funnels Apify requests through that agent, and five bundled skills for the main Apify workflows: using existing Actors, building and deploying custom Actors, actorizing existing projects, generating Actor output schemas, and integrating Apify into existing applications.
 
-> **Apify** is a platform of thousands of serverless cloud programs called **Actors** for web scraping, browser automation, and data extraction. Learn more at [apify.com](https://apify.com).
+> **Apify** is the largest marketplace of tools for AI: ready-made **Actors** you can run, or build your own. Find your Actor at [Apify Store](https://apify.com/store).
 
 ## What you get
 
