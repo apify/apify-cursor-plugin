@@ -53,9 +53,9 @@ If this fails, install the CLI first:
     apify login --token TOKEN
 ```
 
-3. Run Apify CLI commands with `all` permissions when needed by the agent sandbox.
+3. Authenticated Apify CLI commands need file access to `~/.apify/`, where the CLI keeps its credentials. A host that sandboxes file access can deny this even when the login is valid; that is a sandbox problem, not a login problem.
 
-4. Assume many Apify commands block with zero output until completion. For blocking runs, set `block_until_ms` to at least `60000`.
+4. Assume many Apify commands block with zero output until completion, so allow at least 60 seconds before treating one as stuck. If your shell tool takes a timeout, raise it accordingly.
 
 5. For long or unknown-duration runs, prefer the async pattern:
 
@@ -66,7 +66,7 @@ If this fails, install the CLI first:
    Then poll the run status:
 
 ```bash
-    apify info actor-runs/RUN_ID --json
+    apify runs info RUN_ID --json
 ```
 
    Check `.status` for `SUCCEEDED` or `FAILED`.
@@ -160,7 +160,7 @@ For CSV: `apify datasets get-items DATASET_ID --format csv`
 ```bash
     apify actors start "ACTOR_ID" -i 'JSON_INPUT' --json 2>/dev/null
 ```
-Poll: `apify info actor-runs/RUN_ID --json` (check `.status` for `SUCCEEDED` or `FAILED`).
+Poll: `apify runs info RUN_ID --json` (check `.status` for `SUCCEEDED` or `FAILED`).
 
 ### Step 4: Deliver results
 

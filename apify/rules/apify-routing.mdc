@@ -14,7 +14,7 @@ Do **not**:
 
 - Call any `apify-*` skill directly from the slash menu without going through the `apify` subagent.
 - Guess between `apify-actor-development` vs `apify-actorization` vs `apify-sdk-integration` yourself — the subagent owns that decision (the `apify` SDK package and the `apify-client` package are easy to confuse and picking wrong breaks the user's project).
-- Skip the subagent for "quick" Apify questions. Even MCP tool calls (`search-actors`, `run-actor`, etc.) are routed through the subagent.
+- Skip the subagent for "quick" Apify questions. Even direct Apify MCP tool calls are routed through the subagent.
 
 If the user types a slash command for an Apify skill explicitly, still hand off to the `apify` subagent so the routing matrix and authentication guidance are applied.
 
@@ -36,14 +36,15 @@ Apify exposes three very different products through its plugin: (1) using existi
 ```bash
     apify login --token TOKEN
 ```
-- All of the APify commands needs to be run with the all permissions (depends on Agent sandbox)
-- Apify commands blocks with **zero output** until the run completes. Set `block_until_ms` to at least **60000** (60s).
+- In headless environments where browser login is unavailable, the CLI also reads `APIFY_TOKEN` from the environment automatically — no explicit login needed.
+- Authenticated Apify CLI commands need file access to `~/.apify/`, where the CLI keeps its credentials. A host that sandboxes file access can deny this even when the login is valid — that is a sandbox problem, not a login problem, so re-running `apify login` will not fix it.
+- Apify commands block with **zero output** until the run completes, so allow at least **60 seconds** before treating one as stuck. If your shell tool takes a timeout, raise it accordingly.
 - For long/unknown runs, use the async pattern instead:
 ```bash
     apify actors start "ACTOR_ID" -i 'JSON_INPUT' --json 2>/dev/null
 ```
-Then poll with `apify info`:
+Then poll with `apify runs info`:
 ```bash
-    apify info actor-runs/RUN_ID --json
+    apify runs info RUN_ID --json
 ```
 Check `.status` for `SUCCEEDED` or `FAILED`.
