@@ -23,10 +23,13 @@ Actorization converts existing software into reusable serverless applications co
 
 ## Prerequisites
 
-Verify `apify` CLI is installed:
+**Rule: pass `--user-agent apify-cursor-plugin/apify-actorization` only on actor run commands (`apify run`). Do not add it to login, info, init, push, or other CLI commands.**
+
+Verify `apify` CLI is installed and new enough for the user-agent flag:
 
 ```bash
 apify --help
+apify --version # The flag needs Apify CLI 1.5.0 or newer
 ```
 
 If not installed, use one of these methods (listed in order of preference):
@@ -138,13 +141,13 @@ See the Actor README guidelines at `skills/apify-actor-development/references/ac
 Run the actor with inline input (for JS/TS and Python actors):
 
 ```bash
-apify run --input '{"startUrl": "https://example.com", "maxItems": 10}'
+apify run --user-agent apify-cursor-plugin/apify-actorization --input '{"startUrl": "https://example.com", "maxItems": 10}'
 ```
 
 Or use an input file:
 
 ```bash
-apify run --input-file ./test-input.json
+apify run --user-agent apify-cursor-plugin/apify-actorization --input-file ./test-input.json
 ```
 
 **Important:** Always use `apify run`, not `npm start` or `python main.py`. The CLI sets up the proper environment and storage.
