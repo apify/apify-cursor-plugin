@@ -8,7 +8,7 @@ Actorization converts existing software into reusable serverless applications co
 
 ## Quick Start
 
-1. Run `apify init` in project root
+1. Run `apify init <actor-name>` in the project root, or `apify init --yes` to accept the default name. Never run bare `apify init`.
 2. Wrap code with SDK lifecycle (see language-specific section below)
 3. Configure `.actor/input_schema.json`
 4. Test with `apify run --input '{"key": "value"}'`
@@ -41,8 +41,8 @@ npm install -g apify-cli
 # Or (Mac): brew install apify-cli
 ```
 
-> **Security note:** Do NOT install the CLI by piping remote scripts to a shell
-> (e.g. `curl ... | bash` or `irm ... | iex`). Always use a package manager.
+> **Security note:** Do NOT install the CLI by piping a remote script into a shell.
+> Always use a package manager.
 
 Verify CLI is logged in:
 
@@ -69,13 +69,14 @@ If browser login isn't available (headless environment or CI), ensure the `APIFY
 Copy this checklist to track progress:
 
 - [ ] Step 1: Analyze project (language, entry point, inputs, outputs)
-- [ ] Step 2: Run `apify init` to create Actor structure
+- [ ] Step 2: Run `apify init <actor-name>` or `apify init --yes` to create Actor structure
 - [ ] Step 3: Apply language-specific SDK integration
 - [ ] Step 4: Configure `.actor/input_schema.json`
 - [ ] Step 5: Configure `.actor/output_schema.json` (if applicable)
 - [ ] Step 6: Update `.actor/actor.json` metadata
 - [ ] Step 7: Write README.md for the Apify Store listing
 - [ ] Step 8: Test locally with `apify run`
+- [ ] Before push: `Dockerfile` exists and its base image matches the project language (`apify/actor-python` for Python, `apify/actor-node` for JavaScript/TypeScript). A Node image that builds is not a pass for a Python project.
 - [ ] Step 9: Deploy with `apify push`
 
 ## Step 1: Analyze the Project
@@ -90,16 +91,36 @@ Before making changes, understand the project:
 
 ## Step 2: Initialize Actor Structure
 
-Run in the project root:
+Never run bare `apify init`. It prompts for a name, and under an agent that prompt never completes.
+
+Pass a name derived from the project:
 
 ```bash
-apify init
+apify init <actor-name>
+```
+
+When the directory name is an acceptable Actor name, accept the default instead. The CLI sanitises it. For a Python project the default comes from the entrypoint package name:
+
+```bash
+apify init --yes
 ```
 
 This creates:
-- `.actor/actor.json` - Actor configuration and metadata
-- `.actor/input_schema.json` - Input definition for the Apify Console
-- `Dockerfile` (if not present) - Container image definition
+- `.actor/actor.json`
+- `storage/`
+- `.env`
+- a prefilled `INPUT.json`, only if an input schema already exists
+
+`init` does not create a `Dockerfile`.
+
+### Write a Dockerfile before push
+
+Before `apify push`, write a `Dockerfile` from the template for this project's language. `apify-actor-development` expects that file at the project root.
+
+- **Python:** base image `apify/actor-python` ([python-empty template](https://github.com/apify/actor-templates/blob/master/templates/python-empty/Dockerfile))
+- **JavaScript/TypeScript:** base image `apify/actor-node` ([js-empty template](https://github.com/apify/actor-templates/blob/master/templates/js-empty/Dockerfile))
+
+Point `CMD` at this project's entrypoint. For other languages, use the Dockerfile in [cli-actorization.md](references/cli-actorization.md).
 
 ## Step 3: Apply Language-Specific Changes
 
@@ -154,6 +175,8 @@ apify run --user-agent apify-cursor-plugin/apify-actorization --input-file ./tes
 
 ## Step 9: Deploy
 
+Do not push until a `Dockerfile` exists and its base image matches the project language (`apify/actor-python` for Python, `apify/actor-node` for JavaScript/TypeScript). Without a Dockerfile the platform builds the default Node image, so a Python Actor can build and still fail at runtime.
+
 ```bash
 apify push
 ```
@@ -191,7 +214,7 @@ Other options: **Rental** (monthly subscription) or **Free** (open source).
 - [ ] `.actor/input_schema.json` validates against `@apify/json_schemas` (`input.schema.json`)
 - [ ] `.actor/output_schema.json` defines output structure (if applicable)
 - [ ] `.actor/output_schema.json` validates against `@apify/json_schemas` (`output.schema.json`)
-- [ ] `Dockerfile` is present and builds successfully
+- [ ] `Dockerfile` exists and its base image matches the project language (`apify/actor-python` for Python, `apify/actor-node` for JavaScript/TypeScript). A successful build on the wrong base is not a pass.
 - [ ] `Actor.init()` / `Actor.exit()` wraps main code (JS/TS)
 - [ ] `async with Actor:` wraps main code (Python)
 - [ ] Inputs are read via `Actor.getInput()` / `Actor.get_input()`
