@@ -28,21 +28,16 @@ MY_PARAM=$(echo "$INPUT" | jq -r '.myParam // "default"')
 
 ## Update Dockerfile
 
-Reference the [cli-start template Dockerfile](https://github.com/apify/actor-templates/blob/master/templates/cli-start/Dockerfile) which includes the `ubi` utility for installing binaries from GitHub releases.
+Apify base images run on Alpine Linux, so install system packages with `apk`, not `apt-get`.
 
 ```dockerfile
 FROM apify/actor-node:20
 
-# Install ubi for easy GitHub release installation
-RUN curl --silent --location \
-    https://raw.githubusercontent.com/houseabsolute/ubi/master/bootstrap/bootstrap-ubi.sh | sh
+# Install system packages: bash runs start.sh, jq parses the input
+RUN apk add --no-cache bash jq
 
-# Install your CLI tool from GitHub releases (example)
-# RUN ubi --project your-org/your-tool --in /usr/local/bin
-
-# Or install apify-cli and jq manually
+# Install the Apify CLI from npm
 RUN npm install -g apify-cli
-RUN apt-get update && apt-get install -y jq
 
 # Copy your application
 COPY . .
@@ -56,6 +51,8 @@ RUN chmod +x start.sh
 # Run the wrapper script
 CMD ["./start.sh"]
 ```
+
+For a complete starting point, see the [cli-start template Dockerfile](https://github.com/apify/actor-templates/blob/master/templates/cli-start/Dockerfile). If your tool ships as a binary on GitHub Releases, pin the release version and verify its checksum before you run it.
 
 ## Testing CLI-Based Actors
 

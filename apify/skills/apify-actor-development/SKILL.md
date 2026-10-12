@@ -32,8 +32,8 @@ npm install -g apify-cli
 # Or (Mac): brew install apify-cli
 ```
 
-> **Security note:** Do NOT install the CLI by piping remote scripts to a shell
-> (e.g. `curl … | bash` or `irm … | iex`). Always use a package manager.
+> **Security note:** Do NOT install the CLI by piping a remote script into a shell.
+> Always use a package manager.
 
 When the apify CLI is installed, check that it is logged in with:
 
