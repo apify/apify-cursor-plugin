@@ -16,18 +16,16 @@ This rule does **not** apply to status/auth commands (`apify info`, `apify --ver
 
 ## Prerequisites
 
-- Apify CLI v1.5.0+ (`npm install -g apify-cli`) — older versions reject the user-agent flag
+- Apify CLI v1.10.0+ (`npm install -g apify-cli`). This matches the auth rules below.
 - Authenticated session (see below)
 
 ## Authentication
 
-If a CLI command fails with an auth error, authenticate using one of these methods:
+On CLI **v1.10.0 and earlier**, only `apify login --token TOKEN` authenticates. Exporting `APIFY_TOKEN` does not.
 
-1. **OAuth (interactive):** `apify login` (opens browser)
-2. **Environment variable:** `export APIFY_TOKEN=your_token_here`
-3. **From .env file:** `source .env` (if the file contains `APIFY_TOKEN=...`)
+From CLI **v1.10.1**, `APIFY_TOKEN` takes precedence over the stored login. `export APIFY_TOKEN=...` applies on v1.10.1 and later only.
 
-Generate token: https://console.apify.com/settings/integrations
+Generate a token at https://console.apify.com/settings/integrations. Do not print it.
 
 ## Workflow
 
@@ -35,7 +33,7 @@ Generate token: https://console.apify.com/settings/integrations
 
 Before using the Apify CLI, always verify the local environment:
 
-1. Check that the CLI is installed and is v1.5.0 or newer:
+1. Check that the CLI is installed and is v1.10.0 or newer:
 ```bash
     apify --help
     apify --version
