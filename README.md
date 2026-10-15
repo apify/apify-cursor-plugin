@@ -37,6 +37,16 @@ cp -R /tmp/apify-cursor-plugin/apify ~/.cursor/plugins/local/apify
 # Then in Cursor: View → Command Palette → "Developer: Reload Window"
 ```
 
+### From Neotask Construct
+
+In Neotask, install the plugin from [Neotask Construct](https://construct.neotask.ai/p/apify) with the Neotask CLI, or from the Neotask desktop app under Agents > Skills > Add-ons:
+
+```bash
+neotask construct install apify
+```
+
+The Apify MCP server uses your Apify connection in Neotask.
+
 ## First-run setup
 
 The plugin uses **two different setup paths** depending on what you're doing. The `apify` agent will guide you through whichever one is needed, but here is the high-level map.
