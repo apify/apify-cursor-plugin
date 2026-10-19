@@ -1,0 +1,74 @@
+name: Bump Version on Release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+env:
+  PLUGIN_MANIFEST: apify/.cursor-plugin/plugin.json
+
+jobs:
+  bump-version:
+    if: ${{ !github.event.release.prerelease }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Extract and validate version
+        id: version
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          VERSION="${RELEASE_TAG#v}"
+          if [[ ! "$VERSION" =~ ^(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)(-(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(\.(0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(\+[0-9A-Za-z-]+(\.[0-9A-Za-z-]+)*)?$ ]]; then
+            echo "::error::Invalid semantic version derived from release tag '${RELEASE_TAG}': '${VERSION}'"
+            exit 1
+          fi
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+
+      - name: Update version in plugin.json
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          jq --arg v "$VERSION" '.version = $v' "$PLUGIN_MANIFEST" > "${PLUGIN_MANIFEST}.tmp"
+          mv "${PLUGIN_MANIFEST}.tmp" "$PLUGIN_MANIFEST"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+          BASE_BRANCH: ${{ github.event.repository.default_branch }}
+          RELEASE_URL: ${{ github.event.release.html_url }}
+        run: |
+          if git diff --quiet; then
+            echo "Version in plugin.json is already ${VERSION}. Skipping PR creation."
+            exit 0
+          fi
+
+          BRANCH_NAME="chore/bump-version-${VERSION}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git checkout -B "$BRANCH_NAME"
+          git add "$PLUGIN_MANIFEST"
+          git commit -m "chore: bump version to ${VERSION}"
+          git push --force-with-lease origin "$BRANCH_NAME"
+
+          EXISTING_PR=$(gh pr list --head "$BRANCH_NAME" --base "$BASE_BRANCH" --json url --jq '.[0].url')
+          if [ -n "$EXISTING_PR" ]; then
+            echo "Updated existing PR: ${EXISTING_PR}"
+          else
+            gh pr create \
+              --base "$BASE_BRANCH" \
+              --head "$BRANCH_NAME" \
+              --title "chore: bump version to ${VERSION}" \
+              --body "Automated version bump to \`${VERSION}\` triggered by release ${RELEASE_URL}."
+          fi
