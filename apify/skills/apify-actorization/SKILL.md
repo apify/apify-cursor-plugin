@@ -8,7 +8,7 @@ Actorization converts existing software into reusable serverless applications co
 
 ## Quick Start
 
-1. Run `apify init <actor-name>` in the project root, or `apify init --yes` to accept the default name. Never run bare `apify init`.
+1. Run `apify init <actor-name>` in the project root. Never run bare `apify init` or `apify init --yes` without `<actor-name>`.
 2. Wrap code with SDK lifecycle (see language-specific section below)
 3. Configure `.actor/input_schema.json`
 4. Test with `apify run --input '{"key": "value"}'`
@@ -69,7 +69,7 @@ If browser login isn't available (headless environment or CI), ensure the `APIFY
 Copy this checklist to track progress:
 
 - [ ] Step 1: Analyze project (language, entry point, inputs, outputs)
-- [ ] Step 2: Run `apify init <actor-name>` or `apify init --yes` to create Actor structure
+- [ ] Step 2: Run `apify init <actor-name>` to create Actor structure
 - [ ] Step 3: Apply language-specific SDK integration
 - [ ] Step 4: Configure `.actor/input_schema.json`
 - [ ] Step 5: Configure `.actor/output_schema.json` (if applicable)
@@ -91,18 +91,10 @@ Before making changes, understand the project:
 
 ## Step 2: Initialize Actor Structure
 
-Never run bare `apify init`. It prompts for a name, and under an agent that prompt never completes.
-
-Pass a name derived from the project:
+Always pass `<actor-name>` explicitly (derived from the project). Omitting `<actor-name>` prompts interactively (even with `--yes`, which only skips overwrite confirmations) and hangs indefinitely without a TTY. Never run bare `apify init` or `apify init --yes` without `<actor-name>`.
 
 ```bash
 apify init <actor-name>
-```
-
-When the directory name is an acceptable Actor name, accept the default instead. The CLI sanitises it. For a Python project the default comes from the entrypoint package name:
-
-```bash
-apify init --yes
 ```
 
 This creates:
