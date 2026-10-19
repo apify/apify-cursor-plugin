@@ -118,6 +118,8 @@ try {
 pip install apify-client
 ```
 
+> **Note (`apify-client` 3.x):** `.call()`, `.start()`, and `.wait_for_finish()` return typed Pydantic `Run` models with `snake_case` attributes (`run.id`, `run.default_dataset_id`, `run.status`) rather than dictionaries.
+
 ### Synchronous Execution
 
 ```python
@@ -131,7 +133,7 @@ run = client.actor('apify/web-scraper').call(run_input={
     'maxPagesPerCrawl': 10,
 })
 
-items = client.dataset(run['defaultDatasetId']).list_items().items
+items = client.dataset(run.default_dataset_id).list_items().items
 ```
 
 ### Asynchronous Execution
@@ -142,9 +144,9 @@ run = client.actor('apify/web-scraper').start(run_input={
 })
 
 # Poll for completion
-finished_run = client.run(run['id']).wait_for_finish()
+finished_run = client.run(run.id).wait_for_finish()
 
-items = client.dataset(finished_run['defaultDatasetId']).list_items().items
+items = client.dataset(finished_run.default_dataset_id).list_items().items
 ```
 
 ### Async Client (asyncio)
@@ -158,7 +160,7 @@ run = await client.actor('apify/web-scraper').call(run_input={
     'startUrls': [{'url': 'https://example.com'}],
 })
 
-items = (await client.dataset(run['defaultDatasetId']).list_items()).items
+items = (await client.dataset(run.default_dataset_id).list_items()).items
 ```
 
 ## REST API (Any Language)
