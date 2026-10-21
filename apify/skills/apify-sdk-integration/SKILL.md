@@ -115,8 +115,10 @@ try {
 ### Install
 
 ```bash
-pip install apify-client
+pip install "apify-client>=3"
 ```
+
+When adding the dependency to `requirements.txt` or `pyproject.toml`, use `apify-client>=3`. Older versions return plain dicts, so the examples below fail on them.
 
 > **Note (`apify-client` 3.x):** `.call()`, `.start()`, and `.wait_for_finish()` return typed Pydantic `Run` models with `snake_case` attributes (`run.id`, `run.default_dataset_id`, `run.status`) rather than dictionaries.
 
