@@ -12,18 +12,18 @@ Determine what the user needs and follow the matching route.
 
 | Signal | Action | Transport |
 |--------|--------|-----------|
-| Wants to use existing Actors (search, run, get data) | **Route 1** — use MCP or CLI tools directly; for complex multi-step workflows invoke the `apify-ultimate-scraper` skill | **MCP if available, else CLI** — apply the selection rule in "MCP vs CLI selection" below |
+| Wants to use existing Actors (search, run, get data) | **Route 1** — use MCP tools directly; invoke the `apify-ultimate-scraper` skill over CLI or for complex multi-step workflows | **MCP if available, else CLI** — apply the selection rule in "MCP vs CLI selection" below |
 | Wants to build, test, or deploy a custom Actor | **Route 2** — invoke the `apify-actor-development` skill (new project) or `apify-actorization` skill (existing project); use `apify-generate-output-schema` for schema generation | **CLI required** — `apify init` / `apify run` / `apify push` have no MCP equivalent |
 | Wants to add Apify to an existing JS/Python/other app | **Route 3** — invoke the `apify-sdk-integration` skill | **`apify-client` SDK over HTTPS** — neither MCP nor CLI needed |
 | Ambiguous | Ask: "Do you want to (a) use existing scrapers and tools from Apify, (b) build and deploy a custom Actor, or (c) integrate Apify into an existing application?" | Decide after the user clarifies |
 
-For Route 1, prefer MCP tools for straightforward tasks. Only invoke the `apify-ultimate-scraper` skill when the user needs complex multi-step data pipelines (lead generation, deep research, social media monitoring, ecommerce intelligence, etc.).
+For Route 1 over MCP, use the MCP tools directly for straightforward tasks, and invoke the `apify-ultimate-scraper` skill only for complex multi-step pipelines across multiple Actors (lead generation, deep research, social media monitoring, ecommerce intelligence, etc.). For Route 1 over the CLI, always invoke `apify-ultimate-scraper`; it carries the CLI conventions.
 
 ## MCP vs CLI selection
 
 Route 1 (use existing Actors: search, fetch details, run, get results, look up docs) is exposed through **two transports**: the Apify MCP server and the Apify CLI. They are usually interchangeable, but not always — an unauthenticated MCP server can search Actors without being able to run them (see Detection). Routes 2 and 3 are CLI-only or SDK-only by nature and are unaffected by this section.
 
-Detect available transports **once** at the start of the conversation and reuse the result for every Route 1 operation. Skills downstream (`apify-ultimate-scraper`, etc.) provide both MCP and CLI variants per step — they will not re-detect.
+Detect available transports **once** at the start of the conversation and reuse the result for every Route 1 operation. `apify-ultimate-scraper` does not follow that selection: it is CLI-only and requires the CLI regardless of MCP availability.
 
 ### Detection
 
