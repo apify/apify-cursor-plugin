@@ -22,7 +22,7 @@ Add Apify Actor execution to an existing application. This skill covers the `api
 
 ## Prerequisites
 
-The user needs an `APIFY_TOKEN`. Direct them to **Console > Settings > Integrations** at https://console.apify.com/settings/integrations to create one. If they don't have an account: https://console.apify.com/sign-up (free, no credit card).
+The user needs an `APIFY_TOKEN`. Direct them to **Console > Settings > Integrations** at https://console.apify.com/settings/integrations?utm_source=apify-cursor-plugin&utm_medium=integrations to create one. If they don't have an account: https://console.apify.com/sign-up (free, no credit card).
 
 Store the token securely — environment variable or secrets manager, never hardcoded.
 
