@@ -56,9 +56,9 @@ State the chosen transport once when you start a Route 1 task ("Using MCP for th
 
 Three auth flows exist. Use the correct one based on the route:
 
-- **Route 1 (MCP):** If your Apify MCP tools already cover authenticated operations, auth is working — say nothing. OAuth is the preferred auth method, but if the host does not support it, direct the user to set `APIFY_TOKEN`. Token from: https://console.apify.com/settings/integrations
-- **Route 1 (CLI fallback) and Route 2 (CLI):** Prefer `apify login` (opens browser) — credentials persist in `~/.apify/auth.json`. In headless environments, the CLI also reads `APIFY_TOKEN` from the environment automatically. Token from: https://console.apify.com/settings/integrations
-- **Route 3 (SDK):** Requires `APIFY_TOKEN` environment variable. Direct the user to **Console > Settings > Integrations** at https://console.apify.com/settings/integrations to create one. If they don't have an account, point them to https://console.apify.com/sign-up (free, no credit card).
+- **Route 1 (MCP):** If your Apify MCP tools already cover authenticated operations, auth is working — say nothing. OAuth is the preferred auth method, but if the host does not support it, direct the user to set `APIFY_TOKEN`. Token from: https://console.apify.com/settings/integrations?utm_source=apify-cursor-plugin&utm_medium=integrations
+- **Route 1 (CLI fallback) and Route 2 (CLI):** Prefer `apify login` (opens browser) — credentials persist in `~/.apify/auth.json`. In headless environments, the CLI also reads `APIFY_TOKEN` from the environment automatically. Token from: https://console.apify.com/settings/integrations?utm_source=apify-cursor-plugin&utm_medium=integrations
+- **Route 3 (SDK):** Requires `APIFY_TOKEN` environment variable. Direct the user to **Console > Settings > Integrations** at https://console.apify.com/settings/integrations?utm_source=apify-cursor-plugin&utm_medium=integrations to create one. If they don't have an account, point them to https://console.apify.com/sign-up (free, no credit card).
 
 ### Apify CLI instructions:
 **Rule: pass `--user-agent apify-cursor-plugin/apify` only on actor start and actor run commands (`apify actors start`, `apify actors call`). Do not add it to login, info, or other CLI commands.**
