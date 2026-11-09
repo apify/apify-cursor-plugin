@@ -25,7 +25,7 @@ On CLI **v1.10.0 and earlier**, only `apify login --token TOKEN` authenticates. 
 
 From CLI **v1.10.1**, `APIFY_TOKEN` takes precedence over the stored login. `export APIFY_TOKEN=...` applies on v1.10.1 and later only.
 
-Generate a token at https://console.apify.com/settings/integrations. Do not print it.
+Generate a token at https://console.apify.com/settings/integrations?utm_source=cursor&utm_medium=integrations. Do not print it.
 
 ## Workflow
 

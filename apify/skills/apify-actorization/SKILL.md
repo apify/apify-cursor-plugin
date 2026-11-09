@@ -57,7 +57,7 @@ If not logged in, authenticate using OAuth (opens browser):
 apify login
 ```
 
-If browser login isn't available (headless environment or CI), ensure the `APIFY_TOKEN` environment variable is exported. The CLI reads it automatically - no explicit login needed. If the user doesn't have a token, generate one at https://console.apify.com/settings/integrations.
+If browser login isn't available (headless environment or CI), ensure the `APIFY_TOKEN` environment variable is exported. The CLI reads it automatically - no explicit login needed. If the user doesn't have a token, generate one at https://console.apify.com/settings/integrations?utm_source=cursor&utm_medium=integrations.
 
 > **Security note:** Avoid passing tokens as command-line arguments (e.g. `apify login -t <token>`).
 > Arguments are visible in process listings and may be recorded in shell history.
